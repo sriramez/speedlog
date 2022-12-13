@@ -10,6 +10,12 @@ public class Patrol {
 	@Id
 	String id;
 	String carnumber;
+	public PoliceStation getPoliceStation() {
+		return policeStation;
+	}
+	public void setPoliceStation(PoliceStation policeStation) {
+		this.policeStation = policeStation;
+	}
 	String currentGPSLocation;
 	double currentGPSLatitude;
 	double currentGPSLongitude;

@@ -8,5 +8,5 @@ import com.speedlog.entity.Vehicle;
 public interface VehicleRepository extends MongoRepository<Vehicle, String>{
 
 	@Query("{carNumber:'?0'}")
-	Vehicle findByVehicleNumber(String number);
+	Vehicle findByCarNumber(String number);
 }
