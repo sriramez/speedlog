@@ -22,7 +22,7 @@ public class PatrolService {
 	
 	
 	
-	Patrol createPatrol(PatrolModel patrol)
+	public Patrol createPatrol(PatrolModel patrol)
 	{
 		Patrol patrolObj = new Patrol();
 		patrolObj.setCarnumber(patrol.getCarnumber());
@@ -66,6 +66,27 @@ public class PatrolService {
 		Patrol toRet = patrolRepo.save(patrol);
 		vehicle.getCars().add(patrol);
 		vehicle.setBeingPersued(true);
+		vehicleRepository.save(vehicle);
+		return toRet;
+		
+	}
+	
+	public Patrol removeVehicleFromPersue(String patrolnumber,String vehicleNumber) throws Exception
+	{
+		Patrol patrol = patrolRepo.findByCarNumber(patrolnumber);
+		if(patrol==null)
+		{
+			throw new Exception(patrolnumber+" is not found");
+		}
+		Vehicle vehicle = vehicleRepository.findByCarNumber(vehicleNumber);
+		if(vehicle==null)
+		{
+			throw new Exception(vehicleNumber+" is not found");
+		}
+		patrol.setVehicle(null);
+		Patrol toRet = patrolRepo.save(patrol);
+		vehicle.getCars().remove(patrol);
+		vehicle.setBeingPersued(false);
 		vehicleRepository.save(vehicle);
 		return toRet;
 		
