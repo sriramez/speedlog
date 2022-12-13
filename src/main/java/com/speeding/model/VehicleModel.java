@@ -5,7 +5,21 @@ public class VehicleModel {
 	String carModel;
 	String Color;
 	String description;
+	String ownerName;
+	String vehicleDrivingLicence;
 	
+	public String getOwnerName() {
+		return ownerName;
+	}
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
+	public String getVehicleDrivingLicence() {
+		return vehicleDrivingLicence;
+	}
+	public void setVehicleDrivingLicence(String vehicleDrivingLicence) {
+		this.vehicleDrivingLicence = vehicleDrivingLicence;
+	}
 	public String getCarNumber() {
 		return carNumber;
 	}
