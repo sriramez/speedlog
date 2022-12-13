@@ -4,17 +4,14 @@ public class PatrolModel {
 
 	String carnumber;
 	
-	PoliceStationModel policeStationModel;
+	String stationName;
 	
-	
-	
-	
-	
-	public PoliceStationModel getPoliceStationModel() {
-		return policeStationModel;
+
+	public String getStationName() {
+		return stationName;
 	}
-	public void setPoliceStationModel(PoliceStationModel policeStationModel) {
-		this.policeStationModel = policeStationModel;
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
 	}
 	public String getCarnumber() {
 		return carnumber;
