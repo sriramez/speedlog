@@ -35,15 +35,13 @@ public class VehicleService {
 		{
 			throw new Exception(vehicleNumber+" is not found");
 		}
-		Vehicle vehicleObj = new Vehicle();
-		vehicleObj.setBeingPersued(false);
-		vehicleObj.setCarModel(vehicle.getCarModel());
-		vehicleObj.setCarNumber(vehicle.getCarNumber());
-		vehicleObj.setColor(vehicle.getColor());
-		vehicleObj.setDescription(vehicle.getDescription());
-		vehicleObj.setOwnerName(vehicle.getOwnerName());
-		vehicleObj.setVehicleDrivingLicence(vehicle.getVehicleDrivingLicence());
-		return vehicleRepo.save(vehicleObj);
+		car.setCarModel(vehicle.getCarModel());
+		car.setCarNumber(vehicle.getCarNumber());
+		car.setColor(vehicle.getColor());
+		car.setDescription(vehicle.getDescription());
+		car.setOwnerName(vehicle.getOwnerName());
+		car.setVehicleDrivingLicence(vehicle.getVehicleDrivingLicence());
+		return vehicleRepo.save(car);
 	}
 	
 	public Vehicle updateCurrentGpsPosition(String carNumber,double latitude,double longitude) throws Exception
