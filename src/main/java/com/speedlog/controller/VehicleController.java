@@ -32,7 +32,7 @@ public class VehicleController {
 		return vehicleService.updateCarInfo(vehicleNumber, vehicle);
 	}
 	
-	@PutMapping
+	@PutMapping("location")
 	Vehicle updateCurrentGpsPosition(@RequestParam String carNumber,@RequestParam double latitude,@RequestParam double longitude) throws Exception
 	{
 		return vehicleService.updateCurrentGpsPosition(carNumber, latitude, longitude);
