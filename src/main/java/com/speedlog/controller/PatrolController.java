@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.speeding.model.PatrolModel;
+import com.speeding.model.PatrolToRetModel;
 import com.speedlog.entity.Patrol;
 import com.speedlog.serviceImpl.PatrolService;
 
@@ -33,7 +34,7 @@ public class PatrolController {
 	}
 	
 	@PutMapping("vehicle")
-	public Patrol AddVehiclesToPersue(@RequestParam String patrolNumber,@RequestParam String vehicleNumber) throws Exception
+	public PatrolToRetModel AddVehiclesToPersue(@RequestParam String patrolNumber,@RequestParam String vehicleNumber) throws Exception
 	{
 		return patrolService.addVehicleToPersue(patrolNumber, vehicleNumber);
 	}

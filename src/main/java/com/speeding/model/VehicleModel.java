@@ -1,6 +1,20 @@
 package com.speeding.model;
 
+import com.speedlog.entity.Vehicle;
+
 public class VehicleModel {
+	
+	public VehicleModel(Vehicle vehicle)
+	{
+		this.carModel=vehicle.getCarModel();
+		this.carNumber=vehicle.getCarNumber();
+		this.Color=vehicle.getColor();
+		this.description = vehicle.getDescription();
+		this.ownerName=vehicle.getOwnerName();
+		this.vehicleDrivingLicence=vehicle.getVehicleDrivingLicence();
+	}
+	
+	
 	String carNumber;
 	String carModel;
 	String Color;

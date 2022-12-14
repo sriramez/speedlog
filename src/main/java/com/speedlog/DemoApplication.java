@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan(basePackages = "com.speedlog")
 @EnableMongoRepositories
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "SpeedLog API", version = "2.0", description = "SpeedLog Info"))
 public class DemoApplication {
 
 	public static void main(String[] args) {

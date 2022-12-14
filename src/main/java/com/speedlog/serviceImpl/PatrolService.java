@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.speeding.model.PatrolModel;
+import com.speeding.model.PatrolToRetModel;
+import com.speeding.model.VehicleModel;
 import com.speedlog.entity.Patrol;
 import com.speedlog.entity.Vehicle;
 import com.speedlog.repository.PatrolRepository;
@@ -46,7 +48,7 @@ public class PatrolService {
 		
 	}
 	
-	public Patrol addVehicleToPersue(String patrolnumber,String vehicleNumber) throws Exception
+	public PatrolToRetModel addVehicleToPersue(String patrolnumber,String vehicleNumber) throws Exception
 	{
 		Patrol patrol = patrolRepo.findByCarNumber(patrolnumber);
 		if(patrol==null)
@@ -67,7 +69,11 @@ public class PatrolService {
 		vehicle.getCars().add(patrol);
 		vehicle.setBeingPersued(true);
 		vehicleRepository.save(vehicle);
-		return toRet;
+		
+		PatrolToRetModel toRetPatrol = new PatrolToRetModel(toRet);
+		VehicleModel model = new VehicleModel(vehicle);
+		toRetPatrol.setVehicle(model);
+		return toRetPatrol;
 		
 	}
 	

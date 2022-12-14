@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.speeding.model.PoliceStationModel;
+import com.speeding.model.PoliceStationToRetModel;
 import com.speedlog.entity.PoliceStation;
 import com.speedlog.serviceImpl.PoliceStationService;
 
@@ -28,13 +29,13 @@ public class PoliceStationController {
 	}
 	
 	@PutMapping
-	PoliceStation addPatrolCarToPoliceStation(@RequestParam String patrolCarnumber,@RequestParam String policeStationName) throws Exception
+	PoliceStationToRetModel addPatrolCarToPoliceStation(@RequestParam String patrolCarnumber,@RequestParam String policeStationName) throws Exception
 	{
 		return policeStationService.addPatrolCarsToPoliceStation(patrolCarnumber, policeStationName);
 	}
 	
 	@DeleteMapping
-	PoliceStation removeCarFromPoliceStation(@RequestParam String patrolCarnumber,@RequestParam String policeStationName) throws Exception
+	PoliceStationToRetModel removeCarFromPoliceStation(@RequestParam String patrolCarnumber,@RequestParam String policeStationName) throws Exception
 	{
 		return policeStationService.removePatrolCarsToPoliceStation(patrolCarnumber, policeStationName);
 	}

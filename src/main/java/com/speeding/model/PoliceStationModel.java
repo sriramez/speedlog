@@ -5,6 +5,9 @@ public class PoliceStationModel {
 	String name;
 	String location;
 	String address;
+	
+	
+	
 	public String getName() {
 		return name;
 	}

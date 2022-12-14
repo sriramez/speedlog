@@ -1,11 +1,15 @@
 package com.speedlog.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.speeding.model.PoliceStationModel;
+import com.speeding.model.PoliceStationToRetModel;
 import com.speedlog.entity.Patrol;
 import com.speedlog.entity.PoliceStation;
 import com.speedlog.repository.PatrolRepository;
@@ -29,7 +33,7 @@ public class PoliceStationService {
 		return policeStationRepo.insert(policeStatoinObj);
 	}
 	
-	public PoliceStation addPatrolCarsToPoliceStation(String patrolCarnumber,String policeStationName) throws Exception
+	public PoliceStationToRetModel addPatrolCarsToPoliceStation(String patrolCarnumber,String policeStationName) throws Exception
 	{
 		PoliceStation station = policeStationRepo.findByName(policeStationName);
 		if(station==null)
@@ -49,10 +53,11 @@ public class PoliceStationService {
 		patrol.setPoliceStation(station);
 		PoliceStation toReturn = policeStationRepo.save(station);
 		patrolRepository.save(patrol);
-		return toReturn;
+		PoliceStationToRetModel model = new PoliceStationToRetModel(toReturn);
+		return model;
 	}
 	
-	public PoliceStation removePatrolCarsToPoliceStation(String patrolCarnumber,String policeStationName) throws Exception
+	public PoliceStationToRetModel removePatrolCarsToPoliceStation(String patrolCarnumber,String policeStationName) throws Exception
 	{
 		PoliceStation station = policeStationRepo.findByName(policeStationName);
 		if(station==null)
@@ -68,11 +73,24 @@ public class PoliceStationService {
 		{
 			station.setCars(new ArrayList<Patrol>());
 		}
-		station.getCars().remove(patrol);
 		patrol.setPoliceStation(null);
-		PoliceStation toReturn = policeStationRepo.save(station);
 		patrolRepository.save(patrol);
-		return toReturn;
+		List<Patrol> removedCars = new ArrayList<>();
+		
+		int size = station.getCars().size();
+		
+		for(int i=0;i<size;i++)
+		{
+			String carnumber = station.getCars().get(i).getCarnumber();
+			if(!carnumber.equalsIgnoreCase(patrolCarnumber))
+			{
+				removedCars.add(station.getCars().get(i));
+			}
+		}
+		station.setCars(removedCars);
+		PoliceStation toReturn = policeStationRepo.save(station);
+		
+		return new PoliceStationToRetModel(toReturn);
 	}
 	
 	
