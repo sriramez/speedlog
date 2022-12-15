@@ -5,11 +5,11 @@ import com.speedlog.entity.Patrol;
 public class PatrolToRetModel {
 	String carnumber;
 	String stationName;
-	String currentGPSLocation;
-	double currentGPSLatitude;
-	double currentGPSLongitude;
-	double previousGPSLatitude;
-	double previousGPSLongitude;
+	
+	LocationModel currentLocation;
+	
+	LocationModel previousLocation;
+
 	String currentAddress;
 	
 	PoliceStationModel policeStation;
@@ -21,13 +21,44 @@ public class PatrolToRetModel {
 	{
 		this.carnumber = patrol.getCarnumber();
 		this.currentAddress=patrol.getCurrentAddress();
-		this.currentGPSLatitude=patrol.getCurrentGPSLatitude();
-		this.currentGPSLocation=patrol.getCurrentGPSLocation();
-		this.currentGPSLongitude = patrol.getCurrentGPSLongitude();
-		this.previousGPSLatitude = patrol.getPreviousGPSLatitude();
-		this.previousGPSLongitude = patrol.getPreviousGPSLongitude();
-		this.stationName = patrol.getPoliceStation().getName();
+		this.currentLocation = new LocationModel(patrol.getCurrentLocation().getType(),patrol.getCurrentLocation().getCoordinates());
+		this.previousLocation = new LocationModel(patrol.getPreviousLocation().getType(),patrol.getPreviousLocation().getCoordinates());
+		
+		String stationNameFromPatrol = "";
+		if(patrol.getPoliceStation()!=null)
+		{
+			stationNameFromPatrol = patrol.getPoliceStation().getName();
+		}
+		this.stationName = stationNameFromPatrol;
+				
+				
 	}
+	
+	
+	public LocationModel getCurrentLocation() {
+		return currentLocation;
+	}
+
+	public void setCurrentLocation(LocationModel currentLocation) {
+		this.currentLocation = currentLocation;
+	}
+
+
+
+
+	public LocationModel getPreviousLocation() {
+		return previousLocation;
+	}
+
+
+
+
+	public void setPreviousLocation(LocationModel previousLocation) {
+		this.previousLocation = previousLocation;
+	}
+
+
+
 
 	public String getCarnumber() {
 		return carnumber;
@@ -43,46 +74,6 @@ public class PatrolToRetModel {
 
 	public void setStationName(String stationName) {
 		this.stationName = stationName;
-	}
-
-	public String getCurrentGPSLocation() {
-		return currentGPSLocation;
-	}
-
-	public void setCurrentGPSLocation(String currentGPSLocation) {
-		this.currentGPSLocation = currentGPSLocation;
-	}
-
-	public double getCurrentGPSLatitude() {
-		return currentGPSLatitude;
-	}
-
-	public void setCurrentGPSLatitude(double currentGPSLatitude) {
-		this.currentGPSLatitude = currentGPSLatitude;
-	}
-
-	public double getCurrentGPSLongitude() {
-		return currentGPSLongitude;
-	}
-
-	public void setCurrentGPSLongitude(double currentGPSLongitude) {
-		this.currentGPSLongitude = currentGPSLongitude;
-	}
-
-	public double getPreviousGPSLatitude() {
-		return previousGPSLatitude;
-	}
-
-	public void setPreviousGPSLatitude(double previousGPSLatitude) {
-		this.previousGPSLatitude = previousGPSLatitude;
-	}
-
-	public double getPreviousGPSLongitude() {
-		return previousGPSLongitude;
-	}
-
-	public void setPreviousGPSLongitude(double previousGPSLongitude) {
-		this.previousGPSLongitude = previousGPSLongitude;
 	}
 
 	public String getCurrentAddress() {

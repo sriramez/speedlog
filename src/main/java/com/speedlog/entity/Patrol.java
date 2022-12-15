@@ -16,17 +16,32 @@ public class Patrol {
 	public void setPoliceStation(PoliceStation policeStation) {
 		this.policeStation = policeStation;
 	}
-	String currentGPSLocation;
-	double currentGPSLatitude;
-	double currentGPSLongitude;
-	double previousGPSLatitude;
-	double previousGPSLongitude;
+	
 	String currentAddress;
 	
-	@DocumentReference(lazy = true)
+	@DocumentReference
+	Location currentLocation;
+	
+	@DocumentReference
+	Location previousLocation;
+	
+	
+	public Location getCurrentLocation() {
+		return currentLocation;
+	}
+	public void setCurrentLocation(Location currentLocation) {
+		this.currentLocation = currentLocation;
+	}
+	public Location getPreviousLocation() {
+		return previousLocation;
+	}
+	public void setPreviousLocation(Location previousLocation) {
+		this.previousLocation = previousLocation;
+	}
+	@DocumentReference
 	Vehicle vehicle;
 	
-	@DocumentReference(lazy=true)
+	@DocumentReference
 	PoliceStation policeStation;
 	
 	public String getId() {
@@ -41,36 +56,7 @@ public class Patrol {
 	public void setCarnumber(String carnumber) {
 		this.carnumber = carnumber;
 	}
-	public String getCurrentGPSLocation() {
-		return currentGPSLocation;
-	}
-	public void setCurrentGPSLocation(String currentGPSLocation) {
-		this.currentGPSLocation = currentGPSLocation;
-	}
-	public double getCurrentGPSLatitude() {
-		return currentGPSLatitude;
-	}
-	public void setCurrentGPSLatitude(double currentGPSLatitude) {
-		this.currentGPSLatitude = currentGPSLatitude;
-	}
-	public double getCurrentGPSLongitude() {
-		return currentGPSLongitude;
-	}
-	public void setCurrentGPSLongitude(double currentGPSLongitude) {
-		this.currentGPSLongitude = currentGPSLongitude;
-	}
-	public double getPreviousGPSLatitude() {
-		return previousGPSLatitude;
-	}
-	public void setPreviousGPSLatitude(double previousGPSLatitude) {
-		this.previousGPSLatitude = previousGPSLatitude;
-	}
-	public double getPreviousGPSLongitude() {
-		return previousGPSLongitude;
-	}
-	public void setPreviousGPSLongitude(double previousGPSLongitude) {
-		this.previousGPSLongitude = previousGPSLongitude;
-	}
+	
 	public String getCurrentAddress() {
 		return currentAddress;
 	}

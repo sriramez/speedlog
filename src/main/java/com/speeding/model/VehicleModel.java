@@ -15,6 +15,15 @@ public class VehicleModel {
 	}
 	
 	
+	
+	
+	public VehicleModel() {
+		super();
+	}
+
+
+
+
 	String carNumber;
 	String carModel;
 	String Color;
