@@ -16,13 +16,31 @@ public class Vehicle {
 	String Color;
 	String description;
 	List<String> offencesHistory;
-	double currentGPSLatitude;
-	double currentGPSLongitude;
-	double previousGPSLatitude;
-	double previousGPSLongitude;
+	
+	@DocumentReference
+	Location currentLocation;
+	
+	@DocumentReference
+	Location previousLocation;
+	
+	
+	public Location getCurrentLocation() {
+		return currentLocation;
+	}
+	public void setCurrentLocation(Location currentLocation) {
+		this.currentLocation = currentLocation;
+	}
+	public Location getPreviousLocation() {
+		return previousLocation;
+	}
+	public void setPreviousLocation(Location previousLocation) {
+		this.previousLocation = previousLocation;
+	}
+	
 	String ownerName;
 	String vehicleDrivingLicence;
 	String currentAddress;
+	
 	@DocumentReference(lazy = true)
 	List<Patrol> cars;
 	
@@ -63,30 +81,7 @@ public class Vehicle {
 	public void setOffencesHistory(List<String> offencesHistory) {
 		this.offencesHistory = offencesHistory;
 	}
-	public double getCurrentGPSLatitude() {
-		return currentGPSLatitude;
-	}
-	public void setCurrentGPSLatitude(double currentGPSLatitude) {
-		this.currentGPSLatitude = currentGPSLatitude;
-	}
-	public double getCurrentGPSLongitude() {
-		return currentGPSLongitude;
-	}
-	public void setCurrentGPSLongitude(double currentGPSLongitude) {
-		this.currentGPSLongitude = currentGPSLongitude;
-	}
-	public double getPreviousGPSLatitude() {
-		return previousGPSLatitude;
-	}
-	public void setPreviousGPSLatitude(double previousGPSLatitude) {
-		this.previousGPSLatitude = previousGPSLatitude;
-	}
-	public double getPreviousGPSLongitude() {
-		return previousGPSLongitude;
-	}
-	public void setPreviousGPSLongitude(double previousGPSLongitude) {
-		this.previousGPSLongitude = previousGPSLongitude;
-	}
+	
 	public String getOwnerName() {
 		return ownerName;
 	}

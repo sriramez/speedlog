@@ -1,10 +1,16 @@
 package com.speedlog.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.speeding.model.VehicleModel;
+import com.speedlog.entity.Location;
 import com.speedlog.entity.Vehicle;
+import com.speedlog.repository.LocationRepository;
 import com.speedlog.repository.VehicleRepository;
 
 @Service
@@ -12,9 +18,12 @@ public class VehicleService {
 	
 	@Autowired
 	VehicleRepository vehicleRepo;
+	
+	@Autowired
+	LocationRepository locationRepository;
 
 
-	public Vehicle createVehicle(VehicleModel vehicle)
+	public VehicleModel createVehicle(VehicleModel vehicle)
 	{
 		Vehicle vehicleObj = new Vehicle();
 		vehicleObj.setBeingPersued(false);
@@ -24,10 +33,22 @@ public class VehicleService {
 		vehicleObj.setDescription(vehicle.getDescription());
 		vehicleObj.setOwnerName(vehicle.getOwnerName());
 		vehicleObj.setVehicleDrivingLicence(vehicle.getVehicleDrivingLicence());
-		return vehicleRepo.insert(vehicleObj);
+		
+		if (vehicleObj.getCurrentLocation() == null) {
+			Location current = new Location();
+			current.setType("Point");
+			List<Double> coordinates = new ArrayList<>();
+			coordinates.add(0.0);
+			coordinates.add(0.0);
+			current.setCoordinates(coordinates);
+			locationRepository.insert(current);
+			vehicleObj.setCurrentLocation(current);
+			}
+		
+		return new VehicleModel(vehicleRepo.insert(vehicleObj));
 	}
 	
-	public Vehicle updateCarInfo(String vehicleNumber,VehicleModel vehicle) throws Exception
+	public VehicleModel updateCarInfo(String vehicleNumber,VehicleModel vehicle) throws Exception
 	{
 		
 		Vehicle car = vehicleRepo.findByCarNumber(vehicleNumber);
@@ -41,23 +62,33 @@ public class VehicleService {
 		car.setDescription(vehicle.getDescription());
 		car.setOwnerName(vehicle.getOwnerName());
 		car.setVehicleDrivingLicence(vehicle.getVehicleDrivingLicence());
-		return vehicleRepo.save(car);
+		return new VehicleModel(vehicleRepo.save(car));
 	}
 	
-	public Vehicle updateCurrentGpsPosition(String carNumber,double latitude,double longitude) throws Exception
+	public VehicleModel updateCurrentGpsPosition(String carNumber,double latitude,double longitude) throws Exception
 	{
 		Vehicle car = vehicleRepo.findByCarNumber(carNumber);
 		if(car==null)
 		{
 			throw new Exception(carNumber+" is not found");
 		}
-		double previousLatitude = car.getCurrentGPSLatitude();
-		double previousLongitude = car.getCurrentGPSLongitude();
-		car.setCurrentGPSLatitude(latitude);
-		car.setCurrentGPSLongitude(longitude);
-		car.setPreviousGPSLatitude(previousLatitude);
-		car.setPreviousGPSLongitude(previousLongitude);
-		return vehicleRepo.save(car);
+		double previousLatitude = car.getCurrentLocation().getCoordinates().get(0);
+		double previousLongitude = car.getCurrentLocation().getCoordinates().get(1);
+		locationRepository.delete(car.getCurrentLocation());
+		List<Double> coordinates = new ArrayList<>();
+		Location current = new Location();
+		coordinates.add(longitude);
+		coordinates.add(latitude);
+		current.setCoordinates(coordinates);
+		Location previous = new Location();
+		previous.setCoordinates(Arrays.asList(previousLongitude,previousLatitude));
+		locationRepository.insert(current);
+		locationRepository.insert(previous);
+		car.setCurrentLocation(current);
+		car.setPreviousLocation(previous);
+		vehicleRepo.save(car);
+
+		return new VehicleModel(vehicleRepo.save(car));
 		
 	}
 }

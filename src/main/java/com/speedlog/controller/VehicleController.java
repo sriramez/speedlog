@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.speeding.model.VehicleModel;
-import com.speedlog.entity.Vehicle;
 import com.speedlog.serviceImpl.VehicleService;
 
 @RestController
@@ -20,20 +19,20 @@ public class VehicleController {
 	VehicleService vehicleService;
 
 	@PostMapping
-	Vehicle createVehicle(@RequestBody VehicleModel vehicle)
+	VehicleModel createVehicle(@RequestBody VehicleModel vehicle)
 	{
 		return vehicleService.createVehicle(vehicle);
 	}
 	
 	@PutMapping
-	Vehicle updateCarInfo(@RequestParam String vehicleNumber,@RequestBody VehicleModel vehicle) throws Exception
+	VehicleModel updateCarInfo(@RequestParam String vehicleNumber,@RequestBody VehicleModel vehicle) throws Exception
 	{
 		
 		return vehicleService.updateCarInfo(vehicleNumber, vehicle);
 	}
 	
 	@PutMapping("location")
-	Vehicle updateCurrentGpsPosition(@RequestParam String carNumber,@RequestParam double latitude,@RequestParam double longitude) throws Exception
+	VehicleModel updateCurrentGpsPosition(@RequestParam String carNumber,@RequestParam double latitude,@RequestParam double longitude) throws Exception
 	{
 		return vehicleService.updateCurrentGpsPosition(carNumber, latitude, longitude);
 		

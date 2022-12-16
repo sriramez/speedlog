@@ -28,7 +28,7 @@ public class PatrolController {
 	}
 	
 	@PutMapping
-	public Patrol updateCurrentGpsPosition(@RequestParam String carnumber,@RequestParam double latitude,@RequestParam double longitude) throws Exception
+	public PatrolToRetModel updateCurrentGpsPosition(@RequestParam String carnumber,@RequestParam double latitude,@RequestParam double longitude) throws Exception
 	{
 		return patrolService.updateCurrentGpsPosition(carnumber, latitude, longitude);
 	}

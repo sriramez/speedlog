@@ -33,15 +33,7 @@ public class PatrolService {
 	public Patrol createPatrol(PatrolModel patrol) {
 		Patrol patrolObj = new Patrol();
 		patrolObj.setCarnumber(patrol.getCarnumber());
-		return patrolRepo.insert(patrolObj);
-	}
-
-	public Patrol updateCurrentGpsPosition(String carNumber, double latitude, double longitude) throws Exception {
-		Patrol patrol = patrolRepo.findByCarNumber(carNumber);
-		if (patrol == null) {
-			throw new Exception(carNumber + " is not found");
-		}
-		if (patrol.getCurrentLocation() == null) {
+		if (patrolObj.getCurrentLocation() == null) {
 			Location current = new Location();
 			current.setType("Point");
 			List<Double> coordinates = new ArrayList<>();
@@ -49,28 +41,35 @@ public class PatrolService {
 			coordinates.add(0.0);
 			current.setCoordinates(coordinates);
 			locationRepository.insert(current);
-			patrol.setCurrentLocation(current);
-			patrolRepo.save(patrol);
+			patrolObj.setCurrentLocation(current);
+			}
+		return patrolRepo.insert(patrolObj);
+	}
+
+	public PatrolToRetModel updateCurrentGpsPosition(String carNumber, double latitude, double longitude) throws Exception {
+		Patrol patrol = patrolRepo.findByCarNumber(carNumber);
+		if (patrol == null) {
+			throw new Exception(carNumber + " is not found");
 		}
 		if (patrol.getPreviousLocation() != null) {
-			locationRepository.deleteById(patrol.getPreviousLocation().getId());
+			locationRepository.delete(patrol.getPreviousLocation());
 		}
-		double previousLatitude = patrol.getCurrentLocation().getCoordinates().get(0);
+		double previousLatitude = patrol.getCurrentLocation().getCoordinates().get(1);
 		double previousLongitude = patrol.getCurrentLocation().getCoordinates().get(0);
+		locationRepository.delete(patrol.getCurrentLocation());
 		List<Double> coordinates = new ArrayList<>();
 		Location current = new Location();
-		coordinates.add(latitude);
 		coordinates.add(longitude);
+		coordinates.add(latitude);
 		current.setCoordinates(coordinates);
 		Location previous = new Location();
-		previous.setCoordinates(Arrays.asList(previousLatitude, previousLongitude));
+		previous.setCoordinates(Arrays.asList(previousLongitude,previousLatitude));
 		locationRepository.insert(current);
+		locationRepository.insert(previous);
 		patrol.setCurrentLocation(current);
 		patrol.setPreviousLocation(previous);
 		patrolRepo.save(patrol);
-
-		patrol.getCurrentLocation().getCoordinates().get(1);
-		return patrolRepo.save(patrol);
+		return new PatrolToRetModel(patrolRepo.save(patrol));
 
 	}
 
@@ -88,10 +87,6 @@ public class PatrolService {
 				.filter(patrolObj -> !patrolObj.getCarnumber().equalsIgnoreCase(patrolnumber))
 				.collect(Collectors.toList()));
 		vehicleRepository.save(previousVehicle);
-		// String previousVehicle = patrol.getVehicle().getCarNumber();
-		// Vehicle previousVehicleObj =
-		// vehicleRepository.findByCarNumber(vehicleNumber);
-		// previousVehicleObj.getCars()
 
 		patrol.setVehicle(vehicle);
 		if (vehicle.getCars() == null) {
