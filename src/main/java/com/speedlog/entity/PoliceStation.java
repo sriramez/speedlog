@@ -14,11 +14,26 @@ public class PoliceStation {
 		String name;
 		String location;
 		String address;
+		double latitude;
+		double longitude;
 		
 		@DocumentReference
 		List<Patrol> cars;
 		@DocumentReference
 		List<Vehicle> vehicles;
+		
+		public double getLatitude() {
+			return latitude;
+		}
+		public void setLatitude(double latitude) {
+			this.latitude = latitude;
+		}
+		public double getLongitude() {
+			return longitude;
+		}
+		public void setLongitude(double longitude) {
+			this.longitude = longitude;
+		}
 		public String getId() {
 			return id;
 		}

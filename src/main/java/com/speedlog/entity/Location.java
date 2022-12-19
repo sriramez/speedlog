@@ -36,6 +36,23 @@ public class Location {
 	String type;
 	
 	List<Double> coordinates;
+	
+	long currentTime;
+	
+
+	public long getCurrentTime() {
+		return currentTime;
+	}
+
+
+
+
+	public void setCurrentTime(long currentTime) {
+		this.currentTime = currentTime;
+	}
+
+
+
 
 	public String getId() {
 		return id;

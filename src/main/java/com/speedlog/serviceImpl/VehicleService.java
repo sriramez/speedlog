@@ -11,6 +11,7 @@ import com.speeding.model.VehicleModel;
 import com.speedlog.entity.Location;
 import com.speedlog.entity.Vehicle;
 import com.speedlog.repository.LocationRepository;
+import com.speedlog.repository.PoliceStationRepository;
 import com.speedlog.repository.VehicleRepository;
 
 @Service
@@ -21,6 +22,9 @@ public class VehicleService {
 	
 	@Autowired
 	LocationRepository locationRepository;
+	
+	@Autowired
+	PoliceStationRepository stationRepository;
 
 
 	public VehicleModel createVehicle(VehicleModel vehicle)
@@ -41,6 +45,7 @@ public class VehicleService {
 			coordinates.add(0.0);
 			coordinates.add(0.0);
 			current.setCoordinates(coordinates);
+			current.setCurrentTime(0);
 			locationRepository.insert(current);
 			vehicleObj.setCurrentLocation(current);
 			}
@@ -74,14 +79,31 @@ public class VehicleService {
 		}
 		double previousLatitude = car.getCurrentLocation().getCoordinates().get(0);
 		double previousLongitude = car.getCurrentLocation().getCoordinates().get(1);
+		long previousTime = car.getCurrentLocation().getCurrentTime();
 		locationRepository.delete(car.getCurrentLocation());
 		List<Double> coordinates = new ArrayList<>();
 		Location current = new Location();
 		coordinates.add(longitude);
 		coordinates.add(latitude);
 		current.setCoordinates(coordinates);
+		current.setType("Point");
+		current.setCurrentTime(System.currentTimeMillis());
 		Location previous = new Location();
 		previous.setCoordinates(Arrays.asList(previousLongitude,previousLatitude));
+		previous.setType("Point");
+		previous.setCurrentTime(previousTime);
+		double distance = getDistanceBetweenTwoPointsInMiles(previousLatitude, previousLongitude, latitude, longitude);
+		long timeDifference = (current.getCurrentTime() - previous.getCurrentTime())/3600000;
+		double speedInMiles = distance/timeDifference;
+		
+		if(speedInMiles>80)
+		{
+			
+		}
+		
+		
+		
+		
 		locationRepository.insert(current);
 		locationRepository.insert(previous);
 		car.setCurrentLocation(current);
@@ -90,5 +112,35 @@ public class VehicleService {
 
 		return new VehicleModel(vehicleRepo.save(car));
 		
+	}
+	
+	
+	private double getDistanceBetweenTwoPointsInMiles(double latitude1,double longitude1,double latitude2,double longitude2)
+	{
+		int radius = 3963;
+		double dLat = deg2rad(latitude2-latitude1); 
+		  var dLon = deg2rad(longitude2-longitude1); 
+		  var a = 
+		    Math.sin(dLat/2) * Math.sin(dLat/2) +
+		    Math.cos(deg2rad(latitude1)) * Math.cos(deg2rad(latitude2)) * 
+		    Math.sin(dLon/2) * Math.sin(dLon/2)
+		    ; 
+		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		  var d = radius * c;
+		  return d;
+	}
+	
+	private double deg2rad(double deg)
+	{
+		return deg*(Math.PI/180);
+	}
+
+	public VehicleModel getCarInfo(String vehicleNumber) throws Exception {
+		Vehicle car = vehicleRepo.findByCarNumber(vehicleNumber);
+		if(car==null)
+		{
+			throw new Exception(vehicleNumber+" is not found");
+		}
+		return new VehicleModel(car);
 	}
 }
