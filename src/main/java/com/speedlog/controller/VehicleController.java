@@ -44,4 +44,6 @@ public class VehicleController {
 		return vehicleService.updateCurrentGpsPosition(carNumber, latitude, longitude);
 		
 	}
+	
+	
 }

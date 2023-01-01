@@ -1,7 +1,10 @@
 package com.speedlog.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,9 +43,21 @@ public class PatrolController {
 	}
 	
 	@DeleteMapping("vehicle")
-	public Patrol removeVehicleToPersue(@RequestParam String patrolNumber,@RequestParam String vehicleNumber) throws Exception
+	public PatrolToRetModel removeVehicleToPersue(@RequestParam String patrolNumber,@RequestParam String vehicleNumber) throws Exception
 	{
 		return patrolService.removeVehicleFromPersue(patrolNumber, vehicleNumber);
+	}
+	
+	@GetMapping("vehicle")
+	public PatrolToRetModel getVehicleUsingId(@RequestParam String patrolNumber) throws Exception
+	{
+		return patrolService.getPatrolVehicleFromVehicleId(patrolNumber);
+	}
+	
+	@GetMapping
+	public List<PatrolToRetModel> getAllPatrolVehicles()
+	{
+		return patrolService.getAllPatrolVehicle();
 	}
 	
 	

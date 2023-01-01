@@ -104,7 +104,7 @@ public class PatrolService {
 
 	}
 
-	public Patrol removeVehicleFromPersue(String patrolnumber, String vehicleNumber) throws Exception {
+	public PatrolToRetModel removeVehicleFromPersue(String patrolnumber, String vehicleNumber) throws Exception {
 		Patrol patrol = patrolRepo.findByCarNumber(patrolnumber);
 		if (patrol == null) {
 			throw new Exception(patrolnumber + " is not found");
@@ -119,7 +119,22 @@ public class PatrolService {
 				vehicle.getCars().stream().filter(car -> !car.equals(vehicleNumber)).collect(Collectors.toList()));
 		vehicle.setBeingPersued(false);
 		vehicleRepository.save(vehicle);
-		return toRet;
+		return new PatrolToRetModel(toRet);
 
+	}
+	
+	
+	public PatrolToRetModel getPatrolVehicleFromVehicleId(String patrolnumber) throws Exception
+	{
+		Patrol patrol = patrolRepo.findByCarNumber(patrolnumber);
+		if (patrol == null) {
+			throw new Exception(patrolnumber + " is not found");
+		}
+		return new PatrolToRetModel(patrol);
+	}
+	
+	public List<PatrolToRetModel> getAllPatrolVehicle()
+	{
+		return patrolRepo.findAll().stream().map(patrol-> new PatrolToRetModel(patrol)).toList();
 	}
 }
