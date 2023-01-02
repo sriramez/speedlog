@@ -103,10 +103,6 @@ public class VehicleService {
 			station.getVehicles().add(car);
 			stationRepository.save(station);
 		}
-		
-		
-		
-		
 		locationRepository.insert(current);
 		locationRepository.insert(previous);
 		car.setCurrentLocation(current);

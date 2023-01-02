@@ -82,12 +82,16 @@ public class PatrolService {
 		if (vehicle == null) {
 			throw new Exception(vehicleNumber + " is not found");
 		}
-		Vehicle previousVehicle = patrol.getVehicle();
-		previousVehicle.setCars(previousVehicle.getCars().stream()
-				.filter(patrolObj -> !patrolObj.getCarnumber().equalsIgnoreCase(patrolnumber))
-				.collect(Collectors.toList()));
-		vehicleRepository.save(previousVehicle);
-
+		if(patrol.getVehicle()!=null)
+		{
+			Vehicle previousVehicle = patrol.getVehicle();
+			previousVehicle.setCars(previousVehicle.getCars().stream()
+					.filter(patrolObj -> !patrolObj.getCarnumber().equalsIgnoreCase(patrolnumber))
+					.collect(Collectors.toList()));
+			vehicleRepository.save(previousVehicle);
+	
+		}
+		
 		patrol.setVehicle(vehicle);
 		if (vehicle.getCars() == null) {
 			vehicle.setCars(new ArrayList<Patrol>());
