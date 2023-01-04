@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.speeding.model.VehicleModel;
 import com.speedlog.entity.Location;
+import com.speedlog.entity.PoliceStation;
 import com.speedlog.entity.Vehicle;
 import com.speedlog.repository.LocationRepository;
 import com.speedlog.repository.PoliceStationRepository;
@@ -95,15 +96,13 @@ public class VehicleService {
 		double distance = getDistanceBetweenTwoPointsInMiles(previousLatitude, previousLongitude, latitude, longitude);
 		long timeDifference = (current.getCurrentTime() - previous.getCurrentTime())/3600000;
 		double speedInMiles = distance/timeDifference;
-		
 		if(speedInMiles>80)
 		{
+			PoliceStation station = getNearByStation(car);
 			
+			station.getVehicles().add(car);
+			stationRepository.save(station);
 		}
-		
-		
-		
-		
 		locationRepository.insert(current);
 		locationRepository.insert(previous);
 		car.setCurrentLocation(current);
@@ -112,6 +111,26 @@ public class VehicleService {
 
 		return new VehicleModel(vehicleRepo.save(car));
 		
+	}
+	
+	
+	public PoliceStation getNearByStation(Vehicle car)
+	{
+		double distanceBetweenVehicleAndStation = 10000;
+		
+		List<PoliceStation> findAll = stationRepository.findAll();
+		
+		PoliceStation nearByStation = null;
+		
+		for(int i=0;i<findAll.size();i++)
+		{
+			double tempDistance = getDistanceBetweenTwoPointsInMiles(findAll.get(i).getLatitude(), findAll.get(i).getLongitude(), car.getCurrentLocation().getCoordinates().get(1), car.getCurrentLocation().getCoordinates().get(0));
+			if(tempDistance<distanceBetweenVehicleAndStation)
+			{
+				nearByStation = findAll.get(i);
+			}
+		}
+		return nearByStation;
 	}
 	
 	

@@ -51,6 +51,7 @@ public class PoliceStationController {
 		return policeStationService.getPoliceStationWithName(policeStationName);
 	}
 	
+	@GetMapping("patrols")
 	List<PoliceStationToRetModel> getAllPoliceStation()
 	{
 		return policeStationService.getAllPoliceStation();

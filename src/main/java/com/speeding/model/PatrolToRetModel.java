@@ -5,36 +5,38 @@ import com.speedlog.entity.Patrol;
 public class PatrolToRetModel {
 	String carnumber;
 	String stationName;
-	
+
 	LocationModel currentLocation;
-	
+
 	LocationModel previousLocation;
 
 	String currentAddress;
-	
+
 	PoliceStationModel policeStation;
-	
+
 	VehicleModel vehicle;
-	
-	
-	public PatrolToRetModel(Patrol patrol)
-	{
+
+	public PatrolToRetModel(Patrol patrol) {
 		this.carnumber = patrol.getCarnumber();
-		this.currentAddress=patrol.getCurrentAddress();
-		this.currentLocation = new LocationModel(patrol.getCurrentLocation().getType(),patrol.getCurrentLocation().getCoordinates());
-		this.previousLocation = new LocationModel(patrol.getPreviousLocation().getType(),patrol.getPreviousLocation().getCoordinates());
-		
-		String stationNameFromPatrol = "";
-		if(patrol.getPoliceStation()!=null)
+		this.currentAddress = patrol.getCurrentAddress();
+		if (patrol.getCurrentLocation() != null)
 		{
+			this.currentLocation = new LocationModel(patrol.getCurrentLocation().getType(),
+					patrol.getCurrentLocation().getCoordinates());
+		}
+		if(patrol.getPreviousLocation()!=null)
+		{
+		this.previousLocation = new LocationModel(patrol.getPreviousLocation().getType(),
+				patrol.getPreviousLocation().getCoordinates());
+		}
+		String stationNameFromPatrol = "";
+		if (patrol.getPoliceStation() != null) {
 			stationNameFromPatrol = patrol.getPoliceStation().getName();
 		}
 		this.stationName = stationNameFromPatrol;
-				
-				
+
 	}
-	
-	
+
 	public LocationModel getCurrentLocation() {
 		return currentLocation;
 	}
@@ -43,22 +45,13 @@ public class PatrolToRetModel {
 		this.currentLocation = currentLocation;
 	}
 
-
-
-
 	public LocationModel getPreviousLocation() {
 		return previousLocation;
 	}
 
-
-
-
 	public void setPreviousLocation(LocationModel previousLocation) {
 		this.previousLocation = previousLocation;
 	}
-
-
-
 
 	public String getCarnumber() {
 		return carnumber;
@@ -99,9 +92,5 @@ public class PatrolToRetModel {
 	public void setVehicle(VehicleModel vehicle) {
 		this.vehicle = vehicle;
 	}
-	
-	
-	
-	
-	
+
 }
