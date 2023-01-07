@@ -8,8 +8,11 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.speeding.model.PatrolModel;
+import com.speeding.model.PatrolToRetModel;
 import com.speeding.model.PoliceStationModel;
 import com.speeding.model.PoliceStationToRetModel;
+import com.speeding.model.VehicleModel;
 import com.speedlog.entity.Patrol;
 import com.speedlog.entity.PoliceStation;
 import com.speedlog.repository.PatrolRepository;
@@ -96,5 +99,31 @@ public class PoliceStationService {
 		return policeStationRepo.findAll().stream().map(policeStation -> new PoliceStationToRetModel(policeStation))
 				.toList();
 	}
+
+	public List<VehicleModel> getVehiclesFromStation(String policeStationName) throws Exception {
+		PoliceStation station = policeStationRepo.findByName(policeStationName);
+		if (station == null) {
+			throw new Exception("Police station doesn't exist");
+		}
+		if(station.getVehicles()==null)
+		{
+			return new ArrayList<>();	
+		}
+		return station.getVehicles().stream().map(vehicle->new VehicleModel(vehicle)).collect(Collectors.toList());
+	}
+
+	public List<PatrolToRetModel> getPatrolsFromStation(String policeStationName) throws Exception {
+		PoliceStation station = policeStationRepo.findByName(policeStationName);
+		if (station == null) {
+			throw new Exception("Police station doesn't exist");
+		}
+		if(station.getCars()==null)
+		{
+			return new ArrayList<>();	
+		}
+		return station.getCars().stream().map(vehicle->new PatrolToRetModel(vehicle)).collect(Collectors.toList());
+	}
+
+	
 
 }

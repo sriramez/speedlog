@@ -3,10 +3,12 @@ package com.speedlog.serviceImpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.speeding.model.LocationResponse;
 import com.speeding.model.VehicleModel;
 import com.speedlog.entity.Location;
 import com.speedlog.entity.PoliceStation;
@@ -78,10 +80,6 @@ public class VehicleService {
 		{
 			throw new Exception(carNumber+" is not found");
 		}
-		double previousLatitude = car.getCurrentLocation().getCoordinates().get(0);
-		double previousLongitude = car.getCurrentLocation().getCoordinates().get(1);
-		long previousTime = car.getCurrentLocation().getCurrentTime();
-		locationRepository.delete(car.getCurrentLocation());
 		List<Double> coordinates = new ArrayList<>();
 		Location current = new Location();
 		coordinates.add(longitude);
@@ -90,26 +88,57 @@ public class VehicleService {
 		current.setType("Point");
 		current.setCurrentTime(System.currentTimeMillis());
 		Location previous = new Location();
-		previous.setCoordinates(Arrays.asList(previousLongitude,previousLatitude));
-		previous.setType("Point");
-		previous.setCurrentTime(previousTime);
-		double distance = getDistanceBetweenTwoPointsInMiles(previousLatitude, previousLongitude, latitude, longitude);
-		long timeDifference = (current.getCurrentTime() - previous.getCurrentTime())/3600000;
-		double speedInMiles = distance/timeDifference;
-		if(speedInMiles>80)
+		if(car.getCurrentLocation()!=null)
 		{
-			PoliceStation station = getNearByStation(car);
-			
-			station.getVehicles().add(car);
-			stationRepository.save(station);
+			double previousLatitude = car.getCurrentLocation().getCoordinates().get(1);
+			double previousLongitude = car.getCurrentLocation().getCoordinates().get(0);
+			long previousTime = car.getCurrentLocation().getCurrentTime();
+			locationRepository.delete(car.getCurrentLocation());
+			long timeDiff = current.getCurrentTime()-previousTime;
+			previous.setCoordinates(Arrays.asList(previousLongitude,previousLatitude));
+			previous.setType("Point");
+			previous.setCurrentTime(previousTime);
+			double distance = getDistanceBetweenTwoPointsInMiles(previousLatitude, previousLongitude, latitude, longitude);
+			double timeDifference = Double.valueOf(timeDiff)/Double.valueOf(3600000);
+			double speedInMiles = distance/timeDifference;
+			if(speedInMiles>80)
+			{
+				PoliceStation station = getNearByStation(car);
+				
+				station.getVehicles().add(car);
+				stationRepository.save(station);
+			}
+			locationRepository.insert(current);
+			locationRepository.insert(previous);
+			car.setCurrentLocation(current);
+			car.setPreviousLocation(previous);
 		}
-		locationRepository.insert(current);
-		locationRepository.insert(previous);
-		car.setCurrentLocation(current);
-		car.setPreviousLocation(previous);
-		vehicleRepo.save(car);
-
+		else
+		{
+			locationRepository.insert(current);
+			car.setCurrentLocation(current);
+		}
 		return new VehicleModel(vehicleRepo.save(car));
+		
+	}
+	
+	public LocationResponse getVehicleLocation(String carNumber) throws Exception
+	{
+		Vehicle car = vehicleRepo.findByCarNumber(carNumber);
+		if(car==null)
+		{
+			throw new Exception(carNumber+" is not found");
+		}
+		LocationResponse response = new LocationResponse(0, 0,carNumber);
+		if(car.getCurrentLocation()!=null)
+		{
+			double lng = car.getCurrentLocation().getCoordinates().get(0);
+			double lat = car.getCurrentLocation().getCoordinates().get(1);
+			response.setLat(lat);
+			response.setLng(lng);
+		}
+		
+		return response;
 		
 	}
 	
@@ -161,6 +190,19 @@ public class VehicleService {
 			throw new Exception(vehicleNumber+" is not found");
 		}
 		return new VehicleModel(car);
+	}
+
+	public List<LocationResponse> getAllVehicleLocations() {
+		
+		return vehicleRepo.findAll().stream().map(vehicle-> {
+			try {
+				return getVehicleLocation(vehicle.getCarNumber());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}).collect(Collectors.toList());
 	}
 	
 	
