@@ -33,7 +33,10 @@ public class PatrolToRetModel {
 		if (patrol.getPoliceStation() != null) {
 			stationNameFromPatrol = patrol.getPoliceStation().getName();
 		}
-		this.vehicle = new VehicleModel(patrol.getVehicle());
+		if(patrol.getVehicle()!=null)
+		{
+			this.vehicle = new VehicleModel(patrol.getVehicle());
+		}
 		this.stationName = stationNameFromPatrol;
 
 	}
