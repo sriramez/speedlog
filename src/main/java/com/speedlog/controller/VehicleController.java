@@ -1,5 +1,6 @@
 package com.speedlog.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,13 @@ public class VehicleController {
 	}
 	
 	@GetMapping
-	VehicleModel getVehicleUsingVehicleNumber(@RequestParam String vehicleNumber) throws Exception
+	List<VehicleModel> getVehicleUsingVehicleNumber(@RequestParam String vehicleNumber) throws Exception
+	
 	{
-		return vehicleService.getCarInfo(vehicleNumber);
+		VehicleModel model = vehicleService.getCarInfo(vehicleNumber);
+		List<VehicleModel> vehicleList = new ArrayList<>();
+		vehicleList.add(model);
+		return vehicleList;
 	}
 	
 	@PutMapping("location")
