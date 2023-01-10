@@ -13,9 +13,11 @@ import com.speeding.model.PatrolToRetModel;
 import com.speeding.model.VehicleModel;
 import com.speedlog.entity.Location;
 import com.speedlog.entity.Patrol;
+import com.speedlog.entity.PoliceStation;
 import com.speedlog.entity.Vehicle;
 import com.speedlog.repository.LocationRepository;
 import com.speedlog.repository.PatrolRepository;
+import com.speedlog.repository.PoliceStationRepository;
 import com.speedlog.repository.VehicleRepository;
 
 @Service
@@ -29,10 +31,23 @@ public class PatrolService {
 
 	@Autowired
 	LocationRepository locationRepository;
+	
+	@Autowired
+	PoliceStationRepository policeStationRepo;
+	
+	
+	
 
-	public Patrol createPatrol(PatrolModel patrol) {
+	public PatrolToRetModel createPatrol(PatrolModel patrol) throws Exception {
 		Patrol patrolObj = new Patrol();
 		patrolObj.setCarnumber(patrol.getCarnumber());
+		
+		PoliceStation stationEntity = policeStationRepo.findByName(patrol.getStationName());
+		if(stationEntity==null)
+		{
+			throw new Exception(patrol.getStationName()+" is not present");
+		}
+		
 		if (patrolObj.getCurrentLocation() == null) {
 			Location current = new Location();
 			current.setType("Point");
@@ -43,7 +58,13 @@ public class PatrolService {
 			locationRepository.insert(current);
 			patrolObj.setCurrentLocation(current);
 			}
-		return patrolRepo.insert(patrolObj);
+		
+		patrolObj.setPoliceStation(stationEntity);
+		patrolObj = patrolRepo.insert(patrolObj);
+		stationEntity.getCars().add(patrolObj);
+		policeStationRepo.save(stationEntity);
+		
+		return new PatrolToRetModel(patrolObj);
 	}
 
 	public PatrolToRetModel updateCurrentGpsPosition(String carNumber, double latitude, double longitude) throws Exception {

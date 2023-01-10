@@ -39,6 +39,37 @@ public class Location {
 	
 	long currentTime;
 	
+	Vehicle vehicle;
+	
+	boolean isCurrent;
+	
+	public boolean isCurrent() {
+		return isCurrent;
+	}
+
+
+
+
+	public void setCurrent(boolean isCurrent) {
+		this.isCurrent = isCurrent;
+	}
+
+
+
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+
+
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+
+
 
 	public long getCurrentTime() {
 		return currentTime;
