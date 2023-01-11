@@ -43,7 +43,7 @@ public class PatrolAndVehicleModel {
 		this.stationName = stationNameFromPatrol;
 	}
 
-	public String getCarNnumber() {
+	public String getCarNumber() {
 		return carNumber;
 	}
 

@@ -12,6 +12,7 @@ import com.speeding.model.PatrolAndVehicleModel;
 import com.speeding.model.PatrolModel;
 import com.speeding.model.PatrolToRetModel;
 import com.speeding.model.VehicleModel;
+import com.speeding.model.VehiclePatrolModel;
 import com.speedlog.entity.Location;
 import com.speedlog.entity.Patrol;
 import com.speedlog.entity.PoliceStation;
@@ -163,4 +164,13 @@ public class PatrolService {
 	{
 		return patrolRepo.findAll().stream().map(patrol-> new PatrolToRetModel(patrol)).toList();
 	}
+
+	public VehiclePatrolModel getPatrolDetails(String patrolNumber) throws Exception {
+		Patrol patrol = patrolRepo.findByCarNumber(patrolNumber);
+		if (patrol == null) {
+			throw new Exception(patrolNumber + " is not found");
+		}
+		return new VehiclePatrolModel(patrol);
+	}
+	
 }

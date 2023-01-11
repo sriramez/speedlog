@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.speeding.model.PatrolAndVehicleModel;
 import com.speeding.model.PatrolModel;
 import com.speeding.model.PatrolToRetModel;
+import com.speeding.model.VehiclePatrolModel;
 import com.speedlog.entity.Patrol;
 import com.speedlog.serviceImpl.PatrolService;
 
@@ -62,6 +63,15 @@ public class PatrolController {
 	{
 		return patrolService.getAllPatrolVehicle();
 	}
+	
+	
+	@GetMapping("patrolDetails")
+	public VehiclePatrolModel getPatrolDetails(@RequestParam String patrolNumber) throws Exception
+	{
+		return patrolService.getPatrolDetails(patrolNumber);
+	}
+	
+	
 	
 	
 }
