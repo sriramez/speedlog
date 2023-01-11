@@ -3,7 +3,7 @@ package com.speeding.model;
 import com.speedlog.entity.Patrol;
 
 public class PatrolToRetModel {
-	String carnumber;
+	String carNumber;
 	String stationName;
 
 	LocationModel currentLocation;
@@ -17,7 +17,7 @@ public class PatrolToRetModel {
 	VehicleModel vehicle;
 
 	public PatrolToRetModel(Patrol patrol) {
-		this.carnumber = patrol.getCarnumber();
+		this.carNumber = patrol.getCarNumber();
 		this.currentAddress = patrol.getCurrentAddress();
 		if (patrol.getCurrentLocation() != null)
 		{
@@ -57,12 +57,12 @@ public class PatrolToRetModel {
 		this.previousLocation = previousLocation;
 	}
 
-	public String getCarnumber() {
-		return carnumber;
+	public String getCarNumber() {
+		return carNumber;
 	}
 
-	public void setCarnumber(String carnumber) {
-		this.carnumber = carnumber;
+	public void setCarnumber(String carNumber) {
+		this.carNumber = carNumber;
 	}
 
 	public String getStationName() {

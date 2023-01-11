@@ -41,7 +41,7 @@ public class PatrolService {
 
 	public PatrolToRetModel createPatrol(PatrolModel patrol) throws Exception {
 		Patrol patrolObj = new Patrol();
-		patrolObj.setCarnumber(patrol.getCarnumber());
+		patrolObj.setCarNumber(patrol.getCarNumber());
 		
 		PoliceStation stationEntity = policeStationRepo.findByName(patrol.getStationName());
 		if(stationEntity==null)
@@ -108,7 +108,7 @@ public class PatrolService {
 		{
 			Vehicle previousVehicle = patrol.getVehicle();
 			previousVehicle.setCars(previousVehicle.getCars().stream()
-					.filter(patrolObj -> !patrolObj.getCarnumber().equalsIgnoreCase(patrolnumber))
+					.filter(patrolObj -> !patrolObj.getCarNumber().equalsIgnoreCase(patrolnumber))
 					.collect(Collectors.toList()));
 			vehicleRepository.save(previousVehicle);
 	

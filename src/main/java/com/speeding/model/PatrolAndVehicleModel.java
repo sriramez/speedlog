@@ -4,7 +4,7 @@ import com.speedlog.entity.Patrol;
 
 public class PatrolAndVehicleModel {
 
-	String carnumber;
+	String carNumber;
 	String stationName;
 
 	LocationModel currentLocation;
@@ -19,7 +19,7 @@ public class PatrolAndVehicleModel {
 	
 	
 	public PatrolAndVehicleModel(Patrol patrol) {
-		this.carnumber = patrol.getCarnumber();
+		this.carNumber = patrol.getCarNumber();
 		this.currentAddress = patrol.getCurrentAddress();
 		if (patrol.getCurrentLocation() != null)
 		{
@@ -43,12 +43,12 @@ public class PatrolAndVehicleModel {
 		this.stationName = stationNameFromPatrol;
 	}
 
-	public String getCarnumber() {
-		return carnumber;
+	public String getCarNnumber() {
+		return carNumber;
 	}
 
-	public void setCarnumber(String carnumber) {
-		this.carnumber = carnumber;
+	public void setCarNumber(String carNumber) {
+		this.carNumber = carNumber;
 	}
 
 	public String getStationName() {

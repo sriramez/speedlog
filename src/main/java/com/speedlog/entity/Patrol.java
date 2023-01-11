@@ -9,7 +9,7 @@ public class Patrol {
 
 	@Id
 	String id;
-	String carnumber;
+	String carNumber;
 	public PoliceStation getPoliceStation() {
 		return policeStation;
 	}
@@ -50,11 +50,11 @@ public class Patrol {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getCarnumber() {
-		return carnumber;
+	public String getCarNumber() {
+		return carNumber;
 	}
-	public void setCarnumber(String carnumber) {
-		this.carnumber = carnumber;
+	public void setCarNumber(String carNumber) {
+		this.carNumber = carNumber;
 	}
 	
 	public String getCurrentAddress() {
