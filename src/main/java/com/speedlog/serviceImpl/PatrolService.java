@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.speeding.model.PatrolAndVehicleModel;
 import com.speeding.model.PatrolModel;
 import com.speeding.model.PatrolToRetModel;
 import com.speeding.model.VehicleModel;
@@ -149,13 +150,13 @@ public class PatrolService {
 	}
 	
 	
-	public PatrolToRetModel getPatrolVehicleFromVehicleId(String patrolnumber) throws Exception
+	public PatrolAndVehicleModel getPatrolVehicleFromVehicleId(String patrolnumber) throws Exception
 	{
 		Patrol patrol = patrolRepo.findByCarNumber(patrolnumber);
 		if (patrol == null) {
 			throw new Exception(patrolnumber + " is not found");
 		}
-		return new PatrolToRetModel(patrol);
+		return new PatrolAndVehicleModel(patrol);
 	}
 	
 	public List<PatrolToRetModel> getAllPatrolVehicle()
