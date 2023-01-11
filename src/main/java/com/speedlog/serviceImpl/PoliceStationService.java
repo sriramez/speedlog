@@ -76,7 +76,7 @@ public class PoliceStationService {
 		int size = station.getCars().size();
 
 		for (int i = 0; i < size; i++) {
-			String carnumber = station.getCars().get(i).getCarnumber();
+			String carnumber = station.getCars().get(i).getCarNumber();
 			if (!carnumber.equalsIgnoreCase(patrolCarnumber)) {
 				removedCars.add(station.getCars().get(i));
 			}

@@ -50,7 +50,7 @@ class DemoApplicationTests {
     public void listAllPatrols()
             throws Exception {
 		Patrol patrol = new Patrol();
-		patrol.setCarnumber("car1");
+		patrol.setCarNumber("car1");
 		patrol.setCurrentAddress("address1");
 
         List<PatrolToRetModel> patrols = Arrays.asList( new PatrolToRetModel(patrol));
@@ -63,7 +63,7 @@ class DemoApplicationTests {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(patrols.size())))
-                .andExpect(jsonPath("$[0].carNumber", is(patrol.getCarnumber())));
+                .andExpect(jsonPath("$[0].carNumber", is(patrol.getCarNumber())));
     }
 	
 	@Test

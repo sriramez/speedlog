@@ -2,7 +2,7 @@ package com.speeding.model;
 
 public class PatrolModel {
 
-	String carnumber;
+	String carNumber;
 	
 	String stationName;
 	
@@ -13,11 +13,11 @@ public class PatrolModel {
 	public void setStationName(String stationName) {
 		this.stationName = stationName;
 	}
-	public String getCarnumber() {
-		return carnumber;
+	public String getCarNumber() {
+		return carNumber;
 	}
-	public void setCarnumber(String carnumber) {
-		this.carnumber = carnumber;
+	public void setCarnumber(String carNumber) {
+		this.carNumber = carNumber;
 	}
 	
 	
