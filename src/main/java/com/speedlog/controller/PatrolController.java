@@ -39,9 +39,9 @@ public class PatrolController {
 	}
 	
 	@PutMapping("vehicle")
-	public PatrolToRetModel AddVehiclesToPersue(@RequestParam String patrolNumber,@RequestParam String vehicleNumber) throws Exception
+	public List<PatrolToRetModel> AddVehiclesToPersue(@RequestParam String patrolNumber,@RequestParam String vehicleNumber) throws Exception
 	{
-		return patrolService.addVehicleToPersue(patrolNumber, vehicleNumber);
+		return List.of(patrolService.addVehicleToPersue(patrolNumber, vehicleNumber));
 	}
 	
 	@DeleteMapping("vehicle")
