@@ -99,9 +99,12 @@ public class VehicleService {
 			double speedInMiles = distance / timeDifference;
 			if (speedInMiles > 80) {
 				PoliceStation station = getNearByStation(car);
-
-				station.getVehicles().add(car);
-				stationRepository.save(station);
+				if(!station.getVehicles().contains(car))
+				{
+					station.getVehicles().add(car);
+					stationRepository.save(station);	
+				}
+				
 			}
 			current.setVehicle(car);
 			previous.setVehicle(car);

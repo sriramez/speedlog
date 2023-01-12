@@ -68,9 +68,12 @@ public class SpeedZoneMonitor {
 						double speedInMiles = distance / timeDifference;
 						if (speedInMiles > zone.getSpeedlimit()) {
 							PoliceStation station = vehicleService.getNearByStation(vehicle);
-
-							station.getVehicles().add(vehicle);
-							stationRepository.save(station);
+							if(!station.getVehicles().contains(vehicle))
+							{
+								station.getVehicles().add(vehicle);
+								stationRepository.save(station);
+							}
+							
 						}
 			
 					}
