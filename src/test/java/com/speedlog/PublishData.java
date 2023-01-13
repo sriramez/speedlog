@@ -57,7 +57,7 @@ public class PublishData {
 		locations.forEach(location -> {
 			try {
 				CloseableHttpClient httpclient = HttpClients.createDefault();
-				HttpPut httpPut = new HttpPut("http://localhost:8081/vehicle/location?carNumber=2321322");
+				HttpPut httpPut = new HttpPut("http://localhost:8081/vehicle/location?carNumber=213252");
 				java.net.URI uri = new URIBuilder(httpPut.getURI())
 						.addParameter("latitude", String.valueOf(location.get(0)))
 						.addParameter("longitude", String.valueOf(location.get(1))).build();

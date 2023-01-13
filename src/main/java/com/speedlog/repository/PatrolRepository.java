@@ -7,7 +7,7 @@ import com.speedlog.entity.Patrol;
 
 public interface PatrolRepository extends MongoRepository<Patrol, String>{
 	
-	@Query("{carnumber:'?0'}")
+	@Query("{carNumber:'?0'}")
 	Patrol findByCarNumber(String carNumber);
 
 }
