@@ -71,6 +71,12 @@ public class PatrolController {
 		return patrolService.getPatrolDetails(patrolNumber);
 	}
 	
+	@GetMapping("patrolDetailList")
+	public List<VehiclePatrolModel> getPatrolDetailList(@RequestParam String patrolNumber) throws Exception
+	{
+		return List.of(patrolService.getPatrolDetails(patrolNumber));
+	}
+	
 	@GetMapping("vehicleList")
 	public List<PatrolAndVehicleModel> getVehicleUsingIdList(@RequestParam String patrolNumber) throws Exception
 	{
